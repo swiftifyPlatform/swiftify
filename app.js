@@ -1916,88 +1916,62 @@ modal.remove();
 
 }
 
+async function verifySupportUser() {
 
-async function verifySupportUser(){
+const input = document.getElementById("verifyPhone");
+const error = document.getElementById("verifyError");
+const value = input.value.trim();
 
-const input =
-document.getElementById(
-"verifyPhone"
-);
+error.style.display = "none";
 
-const error =
-document.getElementById(
-"verifyError"
-);
+try {
 
-const phone =
-input.value.trim();
-
-error.style.display =
-"none";
-
-if(
-!/^\d{11}$/
-.test(
-phone
-)
-){
-
-error.style.display =
-"block";
-
-error.innerText =
-"Enter a valid 11 digit number";
-
-return;
-
-}
-
-try{
-
-const snap =
-
-await db
-.collection(
-"customers"
-)
-.doc(
-phone
-)
+const adminDoc = await db
+.collection("settings")
+.doc("admin")
 .get();
 
-if(
-!snap.exists
-){
+if (
+adminDoc.exists &&
+value === adminDoc.data().adminPin
+) {
 
-error.style.display =
-"block";
+window.currentUser = "ADMIN";
+window.isAdmin = true;
 
-error.innerText =
-"Number not found";
+closeVerify();
 
-return;
-
-}
-
-const data =
-snap.data();
-
-if(
-data.verified !== true
-){
-
-error.style.display =
-"block";
-
-error.innerText =
-"Account not verified";
+openAdminDashboard();
 
 return;
 
 }
 
-window.currentUser =
-phone;
+if (!/^\d{11}$/.test(value)) {
+
+error.style.display = "block";
+error.innerText = "Enter valid phone number or Admin PIN";
+
+return;
+
+}
+
+const customer = await db
+.collection("customers")
+.doc(value)
+.get();
+
+if (!customer.exists) {
+
+error.style.display = "block";
+error.innerText = "Number not found";
+
+return;
+
+}
+
+window.currentUser = value;
+window.isAdmin = false;
 
 closeVerify();
 
@@ -2009,19 +1983,20 @@ loadReviewButton();
 
 }
 
-catch(err){
+catch (e) {
 
-console.log(
-err
-);
+error.style.display = "block";
+error.innerText = "Verification failed";
 
-error.style.display =
-"block";
-
-error.innerText =
-"Unable to verify";
+console.error(e);
 
 }
+
+}
+
+function openAdminDashboard() {
+
+window.location.href = "admin.html";
 
 }
 
