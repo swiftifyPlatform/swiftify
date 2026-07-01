@@ -1199,59 +1199,7 @@ font-size:13px;
 font-weight:800;
 ">
 
-<span>
-${
-selected
-.split("/")[0]
-.trim()
-}
-</span>
-
-<span
-style="
-font-size:14px;
-line-height:1;
-">
-👇 </span>
-
 </div>
-
-<!-- DOUBLE CURLY FOR PLAN -->
-<svg
-width="92"
-height="14"
-viewBox="0 0 92 14">
-
-<path
-d="
-M2 4
-Q10 0 18 4
-Q26 8 34 4
-Q42 0 50 4
-Q58 8 66 4
-Q74 0 82 4
-Q88 7 90 4
-"
-stroke="#f5b700"
-stroke-width="1.8"
-fill="none"/>
-
-<path
-d="
-M2 10
-Q10 6 18 10
-Q26 14 34 10
-Q42 6 50 10
-Q58 14 66 10
-Q74 6 82 10
-Q88 13 90 10
-"
-stroke="#f5b700"
-stroke-width="1.6"
-fill="none"
-opacity=".85"/>
-
-</svg>
 
 <div
 style="
@@ -1261,60 +1209,7 @@ margin-top:-3px;
 line-height:1;
 ">
 
-${
-selected.includes("/")
-?
-
-selected
-.split("/")[1]
-.split("—")[0]
-.trim()
-+
-" Plan"
-
-:
-
-""
-}
-
 </div>
-
-<!-- DOUBLE CURLY FOR DAYS -->
-<svg
-width="92"
-height="14"
-viewBox="0 0 92 14">
-
-<path
-d="
-M2 4
-Q10 0 18 4
-Q26 8 34 4
-Q42 0 50 4
-Q58 8 66 4
-Q74 0 82 4
-Q88 7 90 4
-"
-stroke="#f5b700"
-stroke-width="1.8"
-fill="none"/>
-
-<path
-d="
-M2 10
-Q10 6 18 10
-Q26 14 34 10
-Q42 6 50 10
-Q58 14 66 10
-Q74 6 82 10
-Q88 13 90 10
-"
-stroke="#f5b700"
-stroke-width="1.6"
-fill="none"
-opacity=".85"/>
-
-</svg>
 
 </div>
 
@@ -2938,4 +2833,4 @@ showReview:false
 
 });
 
-}                
+}
