@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>
+        DATAHUB
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div>
+
+            <div class="brand">
+
+                Swiftify
+
+            </div>
+
+            <div class="subtitle">
+
+                Fast • Secure • Instant Delivery!
+
+            </div>
+
+        </div>
+
+        <div class="wallet">
+
+            <div class="wallet-title">
+
+                Available Services
+
+            </div>
+
+            <div class="wallet-value">
+
+                Select Below!
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <div class="container">
+
+        <div class="services">
+
+            <button class="service active" data-type="data" onclick="showService('data')">
+
+                <div class="icon">
+
+                </div>
+
+                <div>
+
+                    Buy Data
+
+                </div>
+
+            </button>
+
+            <button class="service" onclick="showService('airtime')">
+
+                <div class="icon">
+
+                </div>
+
+                <div>
+
+                    Airtime
+
+                </div>
+
+            </button>
+
+            <button class="service" onclick="showService('tv')">
+
+                <div class="icon">
+
+                </div>
+
+                <div>
+
+                    TV
+
+                </div>
+
+            </button>
+
+            <button class="service" onclick="showService('electricity')">
+
+                <div class="icon">
+
+                </div>
+
+                <div>
+
+                    Electricity
+
+                </div>
+
+            </button>
+
+        </div>
+
+        <div class="service-description" id="serviceDescription">
+
+            <div class="desc-item" style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            ">
+
+                <div style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+            ">
+
+                    <div class="desc-icon">
+                        📶
+                    </div>
+
+                    <div>
+                        Select your network provider.
+                    </div>
+
+                </div>
+
+                <div id="supportBtn" onclick="showSupportInput()" style="
+                font-size:11px;
+                font-weight:800;
+                color:var(--gold);
+                background:rgba(245,183,0,.08);
+                border:1px solid rgba(245,183,0,.22);
+                padding:7px 12px;
+                border-radius:999px;
+                white-space:nowrap;
+                cursor:pointer;
+                box-shadow:
+                0 0 18px
+                rgba(245,183,0,.12);
+                ">
+
+                    Message Us<br>
+
+                    <span style="
+            font-size:9px;
+            opacity:.75;
+            font-weight:700;
+            ">
+
+                        Only If You Need Help!
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="desc-item">
+                <div class="desc-icon">🛒</div>
+                <div>
+                    Choose a service — Data, Airtime, TV, Electricity, etc.
+                </div>
+            </div>
+
+            <div class="desc-item">
+                <div class="desc-icon">📱</div>
+                <div>
+                    Ensure your phone number is correct before proceeding.
+                </div>
+            </div>
+
+            <div class="desc-item">
+                <div class="desc-icon">⚡</div>
+                <div>
+                    Instant delivery after successful payment.
+                </div>
+            </div>
+
+            <div class="desc-item">
+                <div class="desc-icon">🔒</div>
+                <div>
+                    All transactions are secure and encrypted.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FIREBASE -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+
+        firebase.initializeApp({
+
+            apiKey: "AIzaSyAOK94i4_1o-dmZHP24yXbrEH-UQ-5xulc",
+
+            authDomain: "swiftify-support.firebaseapp.com",
+
+            projectId: "swiftify-support",
+
+            storageBucket: "swiftify-support.firebasestorage.app",
+
+            messagingSenderId: "866386983164",
+
+            appId: "1:866386983164:web:f9a77369f9341b8175bf79"
+
+        });
+
+        const db =
+            firebase.firestore();
+
+    </script>
+
+    <script src="app.js"></script>
+
+    <!-- SUPPORT CHAT -->
+
+    <!-- SUPPORT CHAT -->
+
+    <div id="chatScreen" style="
+    display:none;
+    
+    top:0;
+    left:0;
+    
+    width:100%;
+    height:100vh;
+    
+    background:
+    linear-gradient(
+    180deg,
+    #07111f,
+    #081728
+    );
+    
+    z-index:999999;
+    
+    flex-direction:column;
+    overflow-y:auto;
+    ">
+
+        <!-- TOP BAR -->
+
+        <div style="
+    height:72px;
+    
+    display:flex;
+    
+    align-items:center;
+    
+    justify-content:space-between;
+    
+    padding:0 18px;
+    
+    background:
+    rgba(
+    11,
+    24,
+    48,
+    .96
+    );
+    
+    backdrop-filter:
+    blur(14px);
+    
+    border-bottom:
+    1px solid
+    rgba(
+    245,
+    183,
+    0,
+    .12
+    );
+    
+    flex-shrink:0;
+    ">
+
+            <div style="
+    display:flex;
+    align-items:center;
+    gap:12px;
+    ">
+
+                <div style="
+    width:46px;
+    height:46px;
+    
+    border-radius:50%;
+    
+    background:
+    linear-gradient(
+    135deg,
+    #f5b700,
+    #c88900
+    );
+    
+    display:flex;
+    
+    align-items:center;
+    
+    justify-content:center;
+    
+    font-size:20px;
+    ">
+
+                    💬
+
+                </div>
+
+                <div>
+
+                    <div style="
+    color:white;
+    
+    font-size:16px;
+    
+    font-weight:900;
+    ">
+
+                        Swiftify Support
+
+                    </div>
+
+                    <div style="
+    color:#73ff7d;
+    
+    font-size:12px;
+    ">
+
+                        online
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button onclick="closeChat()" style="
+    background:none;
+    
+    border:none;
+    
+    font-size:26px;
+    
+    color:#f5b700;
+    
+    cursor:pointer;
+    ">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- MESSAGE AREA -->
+
+        <div id="chatMessages" style="
+        flex:1;
+        
+        overflow-y:auto;
+        overflow-x:hidden;
+        
+        padding:20px;
+        padding-bottom:140px;
+        
+        display:flex;
+        flex-direction:column;
+        
+        gap:14px;
+        
+        min-height:0;
+        
+        -webkit-overflow-scrolling:touch;
+        
+        scroll-behavior:smooth;
+        ">
+
+            <div style="
+    align-self:center;
+    
+    background:
+    rgba(
+    255,
+    255,
+    255,
+    .04
+    );
+    
+    padding:10px 16px;
+    
+    border-radius:999px;
+    
+    color:#9aa8c4;
+    
+    font-size:12px;
+    ">
+
+                Start conversation
+
+            </div>
+
+        </div>
+
+
+        <!-- INPUT AREA -->
+
+        <!-- INPUT AREA -->
+
+        <div style="
+        position:absolute;
+        
+        left:0;
+        right:0;
+        bottom:0;
+        
+        padding:22px 14px 34px;
+        
+        display:flex;
+        
+        align-items:center;
+        
+        gap:10px;
+        
+        background:
+        rgba(
+        7,
+        17,
+        31,
+        .98
+        );
+        
+        border-top:
+        1px solid
+        rgba(
+        255,
+        255,
+        255,
+        .06
+        );
+        
+        backdrop-filter:
+        blur(16px);
+        
+        ">
+
+            <input id="chatInput" placeholder="Message" style="
+        flex:1;
+        
+        height:62px;
+        
+        border:none;
+        
+        outline:none;
+        
+        padding:0 22px;
+        
+        border-radius:999px;
+        
+        background:#12213a;
+        
+        color:white;
+        
+        font-size:15px;
+        
+        ">
+
+            <button onclick="sendChat()" style="
+        width:62px;
+        
+        height:62px;
+        
+        border:none;
+        
+        border-radius:50%;
+        
+        background:
+        linear-gradient(
+        135deg,
+        #f5b700,
+        #d89e00
+        );
+        
+        font-size:22px;
+        
+        cursor:pointer;
+        
+        ">
+
+                ➤
+
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
