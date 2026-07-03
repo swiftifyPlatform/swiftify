@@ -716,8 +716,17 @@ let extraData = {};
 
 /* DATA */
 if(service === "Buy Data"){
+
+const selectedPlan =
+document.querySelectorAll("select")[1].value;
+
 plan =
-document.querySelectorAll("select")[1].value.split("—")[0].trim();
+selectedPlan.split("—")[0].trim();
+
+extraData.amount =
+selectedPlan
+.match(/₦([\d,]+)/)?.[1] || "0";
+
 }
 
 /* AIRTIME */
@@ -764,11 +773,7 @@ service === "Buy Data"
 plan:plan,
 
 amount:
-(
-plan.match(/₦([\d,]+)/)?.[1]
-||
-"0"
-),
+extraData.amount || "0",
 
 purchaseStatus:"Purchase Successful ✅",
 
