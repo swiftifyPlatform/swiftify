@@ -2738,7 +2738,7 @@ font-weight:900;
 color:#49e36b;
 ">
 
-₦${Number(data.amount).toLocaleString()}
+₦${data.amount || (data.plan.match(/₦([\d,]+)/)?.[1] ?? "0")}
 
 </span>
 
