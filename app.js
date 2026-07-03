@@ -83,7 +83,7 @@ Glo
     <button
 <button
 class="buy"
-onclick="continuePurchase()">
+onclick="if(validatePhoneByNetwork()) continuePurchase()">
 
 Continue
 
@@ -724,8 +724,7 @@ plan =
 selectedPlan.split("—")[0].trim();
 
 extraData.amount =
-selectedPlan
-.match(/₦([\d,]+)/)?.[1] || "0";
+selectedPlan.split("—")[1]?.replace(/[^0-9]/g,"") || "0";
 
 }
 
@@ -908,11 +907,13 @@ const phoneInput = document.querySelector('input[placeholder="Phone Number"]');
 
 if (phoneInput && phoneInput.value.trim()) {
 
+    let cleanAmount = amount;
+
     db.collection("customers")
     .doc(phoneInput.value.trim())
     .set({
 
-        amount: amount,
+        amount: cleanAmount,
 
         service:
         service === "Buy Data"
@@ -1151,14 +1152,13 @@ selected
 
 <div class="big">
 
-₦${Number(String(data.amount).replace(/,/g,"")).toLocaleString()}
+₦${Number(String(amount).replace(/,/g,"")).toLocaleString()}
 
 </div>
 
 </div>
 
 </div>
-
 
 <button
 class="buy"
