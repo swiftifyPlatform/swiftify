@@ -83,7 +83,7 @@ Glo
     <button
 <button
 class="buy"
-onclick="if(validatePhoneByNetwork()) continuePurchase()">
+onclick="continuePurchase()">
 
 Continue
 
@@ -716,16 +716,8 @@ let extraData = {};
 
 /* DATA */
 if(service === "Buy Data"){
-
-const selectedPlan =
-document.querySelectorAll("select")[1].value;
-
 plan =
-selectedPlan.split("—")[0].trim();
-
-extraData.amount =
-selectedPlan.split("—")[1]?.replace(/[^0-9]/g,"") || "0";
-
+document.querySelectorAll("select")[1].value.split("—")[0].trim();
 }
 
 /* AIRTIME */
@@ -756,28 +748,14 @@ await db
 .doc(phone)
 .set({
 
-identifier:phone,
+identifier: phone,
+verified: true,
+service: service,
+plan: plan,
+purchaseStatus: "Purchase Successful ✅",
+purchaseTime: firebase.firestore.FieldValue.serverTimestamp(),
 
-verified:true,
-
-service:
-service === "Buy Data"
-? "Data"
-: service === "Airtime"
-? "Airtime"
-: service === "TV Subscription"
-? "TV"
-: "Electricity",
-
-plan:plan,
-
-amount:
-extraData.amount || "0",
-
-purchaseStatus:"Purchase Successful ✅",
-
-purchaseTime:
-firebase.firestore.FieldValue.serverTimestamp()
+...extraData
 
 },{
 merge:true
@@ -903,35 +881,6 @@ document
 
 }
 
-const phoneInput = document.querySelector('input[placeholder="Phone Number"]');
-
-if (phoneInput && phoneInput.value.trim()) {
-
-    let cleanAmount = amount;
-
-    db.collection("customers")
-    .doc(phoneInput.value.trim())
-    .set({
-
-        amount: cleanAmount,
-
-        service:
-        service === "Buy Data"
-        ? "Data"
-        : service === "TV Subscription"
-        ? "TV"
-        : service,
-
-        plan:
-        selected.includes("—")
-        ? selected.split("—")[0].trim()
-        : selected
-
-    }, {
-        merge: true
-    });
-
-}
 
 panel.innerHTML = `
 
@@ -1152,13 +1101,24 @@ selected
 
 <div class="big">
 
-₦${Number(String(amount).replace(/,/g,"")).toLocaleString()}
+₦${
+(
+Number(
+String(amount)
+.replaceAll(
+",",
+""
+)
+) || 0
+).toLocaleString()
+}
 
 </div>
 
 </div>
 
 </div>
+
 
 <button
 class="buy"
@@ -2744,27 +2704,6 @@ ${data.plan}
 
 </div>
 
-<div style="
-display:flex;
-justify-content:space-between;
-padding:13px 0;
-border-bottom:1px dashed rgba(255,255,255,.08);
-">
-
-<span style="color:#8ea0c4;">
-Amount
-</span>
-
-<span style="
-font-weight:900;
-color:#49e36b;
-">
-
-₦${data.amount || (data.plan.match(/₦([\d,]+)/)?.[1] ?? "0")}
-
-</span>
-
-</div>
 
 <div style="
 display:flex;
