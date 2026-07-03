@@ -904,6 +904,33 @@ document
 
 }
 
+const phoneInput = document.querySelector('input[placeholder="Phone Number"]');
+
+if (phoneInput && phoneInput.value.trim()) {
+
+    db.collection("customers")
+    .doc(phoneInput.value.trim())
+    .set({
+
+        amount: amount,
+
+        service:
+        service === "Buy Data"
+        ? "Data"
+        : service === "TV Subscription"
+        ? "TV"
+        : service,
+
+        plan:
+        selected.includes("—")
+        ? selected.split("—")[0].trim()
+        : selected
+
+    }, {
+        merge: true
+    });
+
+}
 
 panel.innerHTML = `
 
@@ -1124,17 +1151,7 @@ selected
 
 <div class="big">
 
-₦${
-(
-Number(
-String(amount)
-.replaceAll(
-",",
-""
-)
-) || 0
-).toLocaleString()
-}
+₦${Number(String(data.amount).replace(/,/g,"")).toLocaleString()}
 
 </div>
 
