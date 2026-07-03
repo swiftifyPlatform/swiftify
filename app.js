@@ -748,14 +748,32 @@ await db
 .doc(phone)
 .set({
 
-identifier: phone,
-verified: true,
-service: service,
-plan: plan,
-purchaseStatus: "Purchase Successful ✅",
-purchaseTime: firebase.firestore.FieldValue.serverTimestamp(),
+identifier:phone,
 
-...extraData
+verified:true,
+
+service:
+service === "Buy Data"
+? "Data"
+: service === "Airtime"
+? "Airtime"
+: service === "TV Subscription"
+? "TV"
+: "Electricity",
+
+plan:plan,
+
+amount:
+(
+plan.match(/₦([\d,]+)/)?.[1]
+||
+"0"
+),
+
+purchaseStatus:"Purchase Successful ✅",
+
+purchaseTime:
+firebase.firestore.FieldValue.serverTimestamp()
 
 },{
 merge:true
@@ -2704,6 +2722,27 @@ ${data.plan}
 
 </div>
 
+<div style="
+display:flex;
+justify-content:space-between;
+padding:13px 0;
+border-bottom:1px dashed rgba(255,255,255,.08);
+">
+
+<span style="color:#8ea0c4;">
+Amount
+</span>
+
+<span style="
+font-weight:900;
+color:#49e36b;
+">
+
+₦${Number(data.amount).toLocaleString()}
+
+</span>
+
+</div>
 
 <div style="
 display:flex;
