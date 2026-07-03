@@ -60,18 +60,24 @@ Glo
     <div class="step">
         <label>Data Plan</label>
 
-        <select>
-<option>500MB / 1 Day — ₦250</option>
-<option>1GB / 3 Days — ₦350</option>
-<option>2GB / 2.5 Days — ₦500</option>
-<option>3GB / 4 Days — ₦620</option>
-<option>5GB / 7 Days — ₦750</option>
-<option>10GB / 15 Days — ₦1,250</option>
-<option>15GB / 16 Days — ₦1,920</option>
-<option>20GB / 24 Days — ₦2,500</option>
-<option>30GB / 30 Days — ₦3,570</option>
-<option>50GB / 34 Days — ₦5,950</option>
-</select>
+        <div class="step">
+    <label>Plan Type</label>
+
+    <select id="dataType" onchange="updateDataPlans()">
+        <option value="">Select Type</option>
+        <option value="daily">Daily Plans</option>
+        <option value="weekly">Weekly Plans</option>
+        <option value="monthly">Monthly Plans</option>
+    </select>
+</div>
+
+<div class="step">
+    <label>Data Plan</label>
+
+    <select id="dataPlan">
+        <option>Select a plan type first</option>
+    </select>
+</div>
     </div>
 
     <div class="step">
@@ -514,6 +520,57 @@ const airtimePlans = [
 
 ];
 
+const dataPlans = {
+    daily: [
+        "500MB / 1 Day — ₦250",
+        "1GB / 1 Day — ₦400",
+        "2GB / 1 Day — ₦650"
+    ],
+
+    weekly: [
+        "1GB / 7 Days — ₦500",
+        "2GB / 7 Days — ₦900",
+        "5GB / 7 Days — ₦1,800",
+        "10GB / 7 Days — ₦3,200"
+    ],
+
+    monthly: [
+        "1.5GB / 30 Days — ₦1,000",
+        "3GB / 30 Days — ₦1,800",
+        "5GB / 30 Days — ₦2,500",
+        "10GB / 30 Days — ₦4,200",
+        "20GB / 30 Days — ₦7,500"
+    ]
+};
+
+function updateDataPlans() {
+
+const type =
+document.getElementById("dataType").value;
+
+const select =
+document.getElementById("dataPlan");
+
+select.innerHTML = "";
+
+if (!type || !dataPlans[type]) {
+select.innerHTML = `<option>Select a plan type first</option>`;
+return;
+}
+
+dataPlans[type].forEach(item => {
+
+const option =
+document.createElement("option");
+
+option.text = item;
+
+select.add(option);
+
+});
+
+}
+
 function updateAirtime(){
 
 const network =
@@ -717,7 +774,7 @@ let extraData = {};
 /* DATA */
 if(service === "Buy Data"){
 plan =
-document.querySelectorAll("select")[1].value.split("—")[0].trim();
+document.getElementById("dataPlan").value;
 }
 
 /* AIRTIME */
