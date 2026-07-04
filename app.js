@@ -58,25 +58,18 @@ Glo
     </div>
 
     <div class="step">
-        <label>Data Plan</label>
-
-        <div class="step">
     <label>Plan Type</label>
-
-    <select id="dataType" onchange="updateDataPlans()">
-        <option value="">Select Type</option>
-        <option value="daily">Daily Plans</option>
-        <option value="weekly">Weekly Plans</option>
-        <option value="monthly">Monthly Plans</option>
+    <select id="dataPlanType" onchange="updateDataPlans()">
+        <option value="DAILY">Daily</option>
+        <option value="WEEKLY">Weekly</option>
+        <option value="MONTHLY">Monthly</option>
+        <option value="YEARLY">Yearly</option>
     </select>
 </div>
 
 <div class="step">
     <label>Data Plan</label>
-
-    <select id="dataPlan">
-        <option>Select a plan type first</option>
-    </select>
+    <select id="dataPlanSelect"></select>
 </div>
     </div>
 
@@ -101,6 +94,11 @@ Continue
         Home
     </button>
     `;
+
+    setTimeout(() => {
+    updateDataPlans();
+}, 50);
+
 }
 
 if (type === "airtime") {
@@ -521,54 +519,77 @@ const airtimePlans = [
 ];
 
 const dataPlans = {
-    daily: [
-        "500MB / 1 Day — ₦250",
-        "1GB / 1 Day — ₦400",
-        "2GB / 1 Day — ₦650"
-    ],
 
-    weekly: [
-        "1GB / 7 Days — ₦500",
-        "2GB / 7 Days — ₦900",
-        "5GB / 7 Days — ₦1,800",
-        "10GB / 7 Days — ₦3,200"
-    ],
+DAILY: [
+"300MB — ₦200",
+"500MB — ₦250",
+"2.5GB — ₦650 ",
+"1GB — ₦400",
+"1.2GB — ₦580",
+"1.5GB — ₦600",
+"2GB — ₦700",
+"3GB — ₦950",
+"4GB — ₦800"
+],
 
-    monthly: [
-        "1.5GB / 30 Days — ₦1,000",
-        "3GB / 30 Days — ₦1,800",
-        "5GB / 30 Days — ₦2,500",
-        "10GB / 30 Days — ₦4,200",
-        "20GB / 30 Days — ₦7,500"
-    ]
+WEEKLY: [
+"500MB — ₦350",
+"1GB — ₦600",
+"1.5GB — ₦800",
+"2GB — ₦1200",
+"3GB — ₦960",
+"4GB — ₦1560",
+"5GB — ₦2200",
+"6GB — ₦2500",
+"8GB — ₦2900",
+"10GB — ₦3550",
+"12GB — ₦4590"
+],
+
+MONTHLY: [
+"12GB — ₦5600",
+"15GB — ₦4900",
+"20GB — ₦6800",
+"25GB — ₦7500",
+"30GB — ₦7800",
+"40GB — ₦7950",
+"50GB — ₦8000",
+"60GB — ₦9500",
+"75GB — ₦11000",
+"100GB — ₦14000"
+],
+
+YEARLY: [
+"10GB — ₦25000",
+"15GB — ₦27900",
+"20GB — ₦28000",
+"30GB — ₦29500",
+"40GB — ₦33000",
+"50GB — ₦38000",
+"75GB — ₦45000",
+"100GB — ₦49000",
+"120GB — ₦64000",
+"150GB — ₦66000",
+"200GB — ₦76000",
+"300GB — ₦78000",
+"500GB — ₦84000"
+]
+
 };
 
 function updateDataPlans() {
+    const type = document.getElementById("dataPlanType").value;
+    const select = document.getElementById("dataPlanSelect");
 
-const type =
-document.getElementById("dataType").value;
+    if (!select) return;
 
-const select =
-document.getElementById("dataPlan");
+    select.innerHTML = "";
 
-select.innerHTML = "";
-
-if (!type || !dataPlans[type]) {
-select.innerHTML = `<option>Select a plan type first</option>`;
-return;
-}
-
-dataPlans[type].forEach(item => {
-
-const option =
-document.createElement("option");
-
-option.text = item;
-
-select.add(option);
-
-});
-
+    dataPlans[type].forEach(plan => {
+        const option = document.createElement("option");
+        option.text = plan;
+        select.add(option);
+    });
 }
 
 function updateAirtime(){
@@ -772,9 +793,17 @@ let plan = "";
 let extraData = {};
 
 /* DATA */
-if(service === "Buy Data"){
-plan =
-document.getElementById("dataPlan").value;
+if(service === "Buy Data") {
+
+const planType =
+document.getElementById("dataPlanType").value;
+
+const plan =
+document.getElementById("dataPlanSelect").value;
+
+extraData.planType = planType;
+plan = plan;
+
 }
 
 /* AIRTIME */
@@ -849,13 +878,13 @@ service ===
 "Buy Data"
 ){
 
-selected =
+const planType =
+document.getElementById("dataPlanType").value;
 
-document
-.querySelectorAll(
-"select"
-)[1]
-.value;
+const plan =
+document.getElementById("dataPlanSelect").value;
+
+selected = planType + " • " + plan;
 
 amount =
 
@@ -1152,8 +1181,9 @@ Paul Chimuanya Onyibor
 <div class="amount-card">
 
 This ${
-selected
-.split(" — ")[0]
+service === "Buy Data"
+    ? `${document.getElementById("dataPlanSelect").value.split(" — ")[0]}/${document.getElementById("dataPlanType").value}`
+    : selected.split(" — ")[0]
 } Plan Will Cost You
 
 <div class="big">
@@ -2275,25 +2305,66 @@ document.body.classList.remove(
 
 }
 
-async function continuePurchase(){
+async function continuePurchase() {
 
-if(
-!validatePhoneByNetwork()
-){
-return;
-}
+    const service = document.querySelector(".card-title")?.innerText;
 
-const saved =
-await saveCustomerForSupport();
+    const phoneInput = document.querySelector('input[placeholder="Phone Number"]');
+    const phone = phoneInput?.value.trim();
 
-if(
-!saved
-){
-return;
-}
+    if (!phone) {
+        showError(phoneInput, "Phone Number Is Required");
+        return;
+    }
 
-openPayment();
+    if (!validatePhoneByNetwork()) return;
 
+    let plan = "";
+    let extraData = {};
+
+    if (service === "Buy Data") {
+        const planType = document.getElementById("dataPlanType").value;
+        plan = document.getElementById("dataPlanSelect").value;
+
+        extraData.planType = planType;
+    }
+
+    if (service === "Airtime") {
+        plan = document.getElementById("airtimePlan").value;
+    }
+
+    if (service === "TV Subscription") {
+        plan = document.getElementById("tvPackage").value;
+        extraData.smartCard = document.getElementById("tvSmartCard").value.trim();
+    }
+
+    if (service === "Electricity") {
+        plan = "Electricity Payment";
+        extraData.meterNumber = document.getElementById("meterNumber").value.trim();
+    }
+
+    try {
+        // 🔥 STEP 1: FORCE SAVE TO FIRESTORE FIRST
+        await db.collection("customers").doc(phone).set({
+            identifier: phone,
+            verified: true,
+            service: service,
+            plan: plan,
+            purchaseStatus: "Purchase Successful ✅",
+            purchaseTime: firebase.firestore.FieldValue.serverTimestamp(),
+            ...extraData
+        }, { merge: true });
+
+        // 🔥 STEP 2: SET GLOBAL USER FOR CHAT
+        window.currentUser = phone;
+
+        // 🔥 STEP 3: OPEN PAYMENT
+        openPayment();
+
+    } catch (e) {
+        console.error(e);
+        showError(phoneInput, "Failed to save customer. Try again.");
+    }
 }
 
 function loadMessages(){
@@ -2626,13 +2697,10 @@ snap.data();
 
 let time = "";
 
-if(data.purchaseTime){
+if (data.purchaseTime && data.purchaseTime.toDate) {
+    const d = data.purchaseTime.toDate();
 
-time =
-data.purchaseTime
-.toDate()
-.toLocaleString();
-
+    time = d.toLocaleDateString() + " " + d.toLocaleTimeString();
 }
 
 wrap.innerHTML = `
@@ -2732,12 +2800,33 @@ font-weight:800;
 color:#ffffff;
 ">
 
-${data.service}
+${data.service === "Buy Data" ? "Data" : data.service}
 
 </span>
 
 </div>
 
+<div style="
+display:flex;
+justify-content:space-between;
+padding:13px 0;
+border-bottom:1px dashed rgba(255,255,255,.08);
+">
+
+<span style="color:#8ea0c4;">
+Plan Type
+</span>
+
+<span style="
+font-weight:800;
+color:#ffffff;
+">
+
+${data.planType || "-"}
+
+</span>
+
+</div>
 
 <div style="
 display:flex;
@@ -2762,11 +2851,14 @@ ${data.plan}
 </div>
 
 
+<!-- PHONE NUMBER -->
 <div style="
 display:flex;
 justify-content:space-between;
 padding:13px 0;
 border-bottom:1px dashed rgba(255,255,255,.08);
+align-items:center;
+gap:10px;
 ">
 
 <span style="color:#8ea0c4;">
@@ -2775,22 +2867,23 @@ Phone Number
 
 <span style="
 font-weight:900;
-font-size:17px;
+font-size:15px;
 letter-spacing:1px;
 color:#ffffff;
+text-align:right;
 ">
-
 ${reshuffleNumber(customer)}
-
 </span>
 
 </div>
 
-
+<!-- TIME STAMPED -->
 <div style="
 display:flex;
 justify-content:space-between;
 padding:13px 0;
+align-items:center;
+gap:10px;
 ">
 
 <span style="color:#8ea0c4;">
@@ -2801,28 +2894,31 @@ Time Stamped
 font-weight:700;
 color:#ffffff;
 text-align:right;
-max-width:180px;
-padding-left:8px;
-display:inline-block;
+line-height:1.4;
 ">
-${time}
+${time ? time : "Not Available"}
 </span>
-
-</div>
 
 </div>
 
 <!-- BOTTOM -->
 <div style="
-background:#07111f;
-border-top:1px dashed rgba(245,183,0,.25);
-padding:16px;
+margin:16px;
+margin-top:0;
+background:linear-gradient(180deg,#07111f,#0b1830);
+border:1px solid rgba(245,183,0,.18);
+border-radius:20px;
+padding:18px 20px;
 text-align:center;
+box-shadow:
+0 12px 28px rgba(0,0,0,.35),
+inset 0 1px 0 rgba(255,255,255,.05);
 ">
 
 <div style="
 font-size:12px;
 color:#8ea0c4;
+font-weight:600;
 ">
 
 Thank You For Choosing
@@ -2830,11 +2926,12 @@ Thank You For Choosing
 </div>
 
 <div style="
-margin-top:4px;
-font-size:20px;
+margin-top:6px;
+font-size:22px;
 font-weight:900;
 letter-spacing:2px;
 color:#f5b700;
+text-shadow:0 0 10px rgba(245,183,0,.18);
 ">
 
 SWIFTIFY
@@ -2842,9 +2939,10 @@ SWIFTIFY
 </div>
 
 <div style="
-margin-top:5px;
+margin-top:6px;
 font-size:11px;
-color:#7d8fb1;
+color:#8ea0c4;
+letter-spacing:.5px;
 ">
 
 Secure • Fast • Instant Delivery!
