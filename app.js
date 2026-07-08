@@ -1417,178 +1417,36 @@ btn.innerText =
 
 }
 
-function validatePhoneByNetwork(){
+function validatePhoneByNetwork() {
 
-const service =
-document
-.querySelector(
-".card-title"
-)
-?.innerText;
+    const service =
+        document.querySelector(".card-title")?.innerText;
 
-if(
-service !== "Buy Data" &&
-service !== "Airtime"
-){
-return true;
-}
+    if (service !== "Buy Data" && service !== "Airtime") {
+        return true;
+    }
 
-const phoneInput =
+    const phoneInput = document.querySelector(
+        'input[placeholder="Phone Number"]'
+    );
 
-document.querySelector(
-'input[placeholder="Phone Number"]'
-);
+    clearError(phoneInput);
 
-clearError(
-phoneInput
-);
+    const phone = phoneInput.value.trim();
 
-const network =
+    if (phone === "") {
+        showError(phoneInput, "Phone Number Is Required");
+        return false;
+    }
 
-service === "Buy Data"
+    // Accept any 11-digit number regardless of network
+    if (!/^\d{11}$/.test(phone)) {
+        showError(phoneInput, "Enter Valid 11 Digit Number");
+        return false;
+    }
 
-?
-
-document
-.querySelectorAll(
-"select"
-)[0]
-.value
-
-:
-
-document
-.getElementById(
-"airtimeNetwork"
-)
-.value;
-
-
-const phone =
-
-phoneInput
-.value
-.trim();
-
-
-if(
-phone === ""
-){
-
-showError(
-phoneInput,
-"Phone Number Is Required"
-);
-
-return false;
-
-}
-
-
-if(
-!/^\d{11}$/
-.test(
-phone
-)
-){
-
-showError(
-phoneInput,
-"Enter Valid 11 Digit Number"
-);
-
-return false;
-
-}
-
-
-const prefixes = {
-
-MTN:[
-"0703",
-"0704",
-"0706",
-"0707",
-"0803",
-"0806",
-"0810",
-"0813",
-"0814",
-"0816",
-"0903",
-"0906",
-"0913",
-"0916"
-],
-
-Airtel:[
-"0701",
-"0708",
-"0802",
-"0808",
-"0812",
-"0901",
-"0902",
-"0904",
-"0907",
-"0912"
-],
-
-Glo:[
-"0705",
-"0805",
-"0807",
-"0811",
-"0815",
-"0905",
-"0915"
-],
-
-"9mobile":[
-"0809",
-"0817",
-"0818",
-"0908",
-"0909"
-]
-
-};
-
-
-const prefix =
-
-phone.slice(
-0,
-4
-);
-
-
-if(
-!prefixes[
-network
-].includes(
-prefix
-)
-){
-
-showError(
-phoneInput,
-"Enter A Valid " +
-network +
-" Number"
-);
-
-return false;
-
-}
-
-
-clearError(
-phoneInput
-);
-
-return true;
-
+    clearError(phoneInput);
+    return true;
 }
 
 function openChat() {
