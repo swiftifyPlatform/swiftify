@@ -521,40 +521,40 @@ const airtimePlans = [
 const dataPlans = {
 
 DAILY: [
-"1GB — ₦400/3days",
-"3GB — ₦650/5days",
-"4GB — ₦750/6days",
-"5.2GB — ₦760/7days",
-"6GB — ₦950/7days 46minutes",
-"8GB — ₦960/8days",
-"10GB — ₦1,250/25days",
-"12GB — ₦1,500/27days"
+"1GB — ₦400 /3days",
+"3GB — ₦650 /5days",
+"4GB — ₦750 /6days",
+"5.2GB — ₦760 /7days",
+"6GB — ₦950 /7days",
+"8GB — ₦960 /8days",
+"10GB — ₦1,250 /25days",
+"12GB — ₦1,500 /27days"
 ],
 
 WEEKLY: [
-"500MB — ₦350",
-"1.5GB — ₦800",
-"2GB — ₦1,200",
-"3GB — ₦650/6days",
-"4GB — ₦750/7days",
-"5GB — ₦1000/8days",
-"6GB — ₦1,550/9days",
-"8GB — ₦1,200/9days 35minutes",
-"10GB — ₦1,750/11days",
-"12GB — ₦1,350/13days"
+"500MB — ₦350 /4days",
+"1.5GB — ₦800 /7days",
+"2GB — ₦1,200 /5days",
+"3GB — ₦650 /6days",
+"4GB — ₦750 /7days",
+"5GB — ₦1000 /8days",
+"6GB — ₦1,550 /9days",
+"8GB — ₦1,200 /9days",
+"10GB — ₦1,750 /11days",
+"12GB — ₦1,350 /13days"
 ],
 
 MONTHLY: [
-"12GB — ₦2,650/30days",
-"15GB — ₦2,750/33days",
-"20GB — ₦2,950/30days",
-"25GB — ₦2,990/31days",
-"30GB — ₦3000/32days",
-"40GB — ₦3,750/33days",
-"50GB — ₦3,950/35days",
-"60GB — ₦3,980/36days",
-"75GB — ₦4,500/37days",
-"100GB — ₦4,550/38days"
+"12GB — ₦2,650 /30days",
+"15GB — ₦2,750 /33days",
+"20GB — ₦2,950 /30days",
+"25GB — ₦2,990 /31days",
+"30GB — ₦3000 /32days",
+"40GB — ₦3,750 /33days",
+"50GB — ₦3,850 /35days",
+"60GB — ₦3,980 /36days",
+"75GB — ₦4,500 /37days",
+"100GB — ₦4,550 /38days"
 ],
 
 YEARLY: [
