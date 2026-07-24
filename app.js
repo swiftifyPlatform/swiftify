@@ -884,17 +884,9 @@ document.getElementById("dataPlanSelect").value;
 
 selected = planType + " • " + plan;
 
-amount =
+const match = selected.match(/₦([\d,]+)/);
 
-selected
-.split(
-"₦"
-)[1]
-.replaceAll(
-",",
-""
-)
-.trim();
+amount = match ? match[1].replaceAll(",", "") : "0";
 
 }
 
