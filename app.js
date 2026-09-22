@@ -1314,7 +1314,7 @@ font-size:13px;
 opacity:.7;
 ">
 
-On PalmPay
+On Opay
 
 </div>
 
