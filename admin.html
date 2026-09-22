@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>
+        Swiftify Admin Dashboard
+    </title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, sans-serif;
+        }
+
+        body {
+
+            height: 100vh;
+
+            background:
+                #07111f;
+
+            display: flex;
+
+            overflow: hidden;
+
+        }
+
+        /* LEFT */
+
+        .sidebar {
+
+            width: 320px;
+
+            background:
+                #0d1c31;
+
+            border-right:
+                1px solid rgba(255, 255, 255, .06);
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .title {
+
+            padding: 24px;
+
+            font-size: 22px;
+
+            font-weight: 900;
+
+            color: #f5b700;
+
+        }
+
+        #customerList {
+
+            flex: 1;
+
+            overflow: auto;
+
+        }
+
+        .customer {
+
+            padding: 18px;
+
+            cursor: pointer;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, .04);
+
+            color: white;
+
+        }
+
+        .customer:hover {
+
+            background:
+                rgba(245,
+                    183,
+                    0,
+                    .08);
+
+        }
+
+        /* RIGHT */
+
+        .chat {
+
+            flex: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .chatTop {
+
+            height: 80px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 24px;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            background:
+                #091726;
+
+        }
+
+        #messages {
+
+            flex: 1;
+
+            overflow: auto;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 14px;
+
+        }
+
+        .msg {
+
+            padding: 14px;
+
+            border-radius: 18px;
+
+            max-width: 75%;
+
+        }
+
+        .customerMsg {
+
+            align-self: flex-start;
+
+            background:
+                #13233d;
+
+            color: white;
+
+        }
+
+        .adminMsg {
+
+            align-self: flex-end;
+
+            background:
+                #f5b700;
+
+            color: black;
+
+        }
+
+        .bottom {
+
+            padding: 16px;
+
+            display: flex;
+
+            gap: 12px;
+
+            background:
+                #091726;
+
+        }
+
+        input {
+
+            flex: 1;
+
+            height: 58px;
+
+            border: none;
+
+            outline: none;
+
+            padding: 0 20px;
+
+            border-radius: 999px;
+
+            background:
+                #13233d;
+
+            color: white;
+
+        }
+
+        button {
+
+            width: 90px;
+
+            border: none;
+
+            border-radius: 999px;
+
+            background:
+                #f5b700;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+        .sidebar button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 35px rgba(245,183,0,.25);
+}
+    </style>
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+    
+        <div class="title">
+            Swiftify Support
+        </div>
+    
+        <!-- ADD THIS WRAPPER -->
+        <div style="padding: 0 16px 12px;">
+            <button onclick="deleteAllMediaMessages()" style="
+                width: 100%;
+                margin-top: 10px;
+                background: linear-gradient(135deg,#f5b700,#d89e00);
+                color: #07111f;
+                border: 1px solid rgba(245,183,0,.25);
+                padding: 12px 14px;
+                border-radius: 12px;
+                font-weight: 900;
+                cursor: pointer;
+                box-shadow: 0 12px 28px rgba(245,183,0,.18);
+                transition: 0.2s ease;
+            ">
+                Delete All Media Messages
+            </button>
+        </div>
+    
+        <div id="customerList"></div>
+    
+    </div>
+
+    <div class="chat">
+
+        <div class="chatTop" style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+            <div id="activeUser">
+
+                Select Customer
+
+            </div>
+
+            <button id="reviewBtn" onclick="sendReview()" style="
+display:none;
+
+width:auto;
+
+padding:0 18px;
+
+height:48px;
+
+border:none;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+135deg,
+#f5b700,
+#d89e00
+);
+
+font-weight:900;
+
+cursor:pointer;
+">
+
+                Send Review To Customer
+
+            </button>
+
+        </div>
+
+
+        <div id="messages">
+        </div>
+
+
+        <div class="bottom">
+
+            <input id="reply" placeholder="Reply">
+
+            <button onclick="sendReply()">
+
+                Send
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+
+        firebase.initializeApp({
+
+            apiKey: "AIzaSyAOK94i4_1o-dmZHP24yXbrEH-UQ-5xulc",
+
+            authDomain: "swiftify-support.firebaseapp.com",
+
+            projectId: "swiftify-support",
+
+            storageBucket: "swiftify-support.firebasestorage.app",
+
+            messagingSenderId: "866386983164",
+
+            appId: "1:866386983164:web:f9a77369f9341b8175bf79"
+
+        });
+
+        const db =
+            firebase.firestore();
+
+        let currentUser = "";
+
+        let unsubscribe =
+            null;
+
+
+        /* LOAD CUSTOMERS */
+
+        db
+            .collection("customers")
+            .orderBy("identifier")
+            .onSnapshot(snapshot => {
+
+                const list =
+                    document.getElementById(
+                        "customerList"
+                    );
+
+                list.innerHTML = "";
+
+                snapshot.forEach(doc => {
+
+                    list.innerHTML += `
+    
+    <div
+    class="customer"
+    onclick="
+    openChat(
+    '${doc.id}'
+    )
+    ">
+    
+    ${doc.id}
+    
+    </div>
+    
+    `;
+
+                });
+
+            });
+
+
+        /* OPEN CUSTOMER */
+
+        function openChat(id) {
+
+            currentUser = id;
+
+            document.getElementById(
+                "activeUser"
+            ).innerHTML =
+
+                "Customer • " + id;
+
+
+            /* STOP OLD LISTENER */
+
+            if (unsubscribe) {
+
+                unsubscribe();
+
+            }
+
+
+            unsubscribe =
+
+                db
+                    .collection("customers")
+                    .doc(id)
+                    .collection("messages")
+                    .orderBy("createdAt")
+                    .onSnapshot(snapshot => {
+
+                        const box =
+                            document.getElementById(
+                                "messages"
+                            );
+
+                        box.innerHTML = "";
+
+
+                        snapshot.forEach(doc => {
+
+                            const m =
+                                doc.data();
+
+                            box.innerHTML += `
+    
+    <div
+    class="
+    msg
+    ${m.sender === "admin"
+                                    ?
+                                    "adminMsg"
+                                    :
+                                    "customerMsg"
+                                }
+    ">
+    
+    ${m.text || m.message || ""}
+    
+    </div>
+    
+    `;
+
+                        });
+
+                        box.scrollTop =
+                            box.scrollHeight;
+
+                    });
+
+            document
+                .getElementById(
+                    "reviewBtn"
+                )
+                .style.display =
+                "block";
+
+        }
+
+
+        /* SEND REPLY */
+
+        async function sendReply() {
+
+            if (!currentUser) {
+
+                alert(
+                    "Select Customer"
+                );
+
+                return;
+
+            }
+
+            const input =
+                document.getElementById(
+                    "reply"
+                );
+
+            const text =
+                input.value.trim();
+
+            if (!text) {
+                return;
+            }
+
+            try {
+
+                await db
+                    .collection("customers")
+                    .doc(currentUser)
+                    .collection("messages")
+                    .add({
+
+                        text: text,
+
+                        sender: "admin",
+
+                        createdAt:
+                            firebase.firestore
+                                .FieldValue
+                                .serverTimestamp(),
+
+                        read: false
+
+                    });
+
+                input.value = "";
+
+            }
+            catch (err) {
+
+                console.log(err);
+
+                alert(
+                    "Unable To Send"
+                );
+
+            }
+
+        }
+
+
+        /* ENTER TO SEND */
+
+        document
+            .getElementById(
+                "reply"
+            )
+            .addEventListener(
+                "keydown",
+
+                function (e) {
+
+                    if (
+                        e.key === "Enter"
+                    ) {
+
+                        sendReply();
+
+                    }
+
+                }
+
+            );
+
+        async function sendReview() {
+
+            if (
+                !currentUser
+            ) {
+                return;
+            }
+
+            await db
+                .collection(
+                    "customers"
+                )
+                .doc(
+                    currentUser
+                )
+                .set({
+
+                    showReview: true
+
+                },
+
+                    {
+                        merge: true
+                    }
+                );
+
+            alert(
+                "Review Sent"
+            );
+
+        }
+
+        async function deleteAllMediaMessages() {
+                const confirmDelete = confirm(
+                    "Are you sure you want to delete ALL messages from ALL customers? This cannot be undone."
+                );
+
+                if (!confirmDelete) return;
+
+                const customersSnap = await db.collection("customers").get();
+
+                const batch = db.batch();
+                let batchCount = 0;
+
+                for (const customerDoc of customersSnap.docs) {
+                    const messagesSnap = await db
+                        .collection("customers")
+                        .doc(customerDoc.id)
+                        .collection("messages")
+                        .get();
+
+                    messagesSnap.forEach((msgDoc) => {
+                        batch.delete(msgDoc.ref);
+                        batchCount++;
+
+                        // Firestore batch limit safety (500 ops max)
+                        if (batchCount === 450) {
+                            batch.commit();
+                            batchCount = 0;
+                        }
+                    });
+                }
+
+                if (batchCount > 0) {
+                    await batch.commit();
+                }
+
+                alert("All messages deleted successfully.");
+            }
+
+    </script>
