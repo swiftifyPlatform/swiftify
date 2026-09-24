@@ -521,10 +521,10 @@ const airtimePlans = [
 const dataPlans = {
 
 DAILY: [
-"1GB — ₦400 /2days",
-"2GB — ₦650 /3days",
-"4GB — ₦750 /4days",
-"5.3GB — ₦1,400 /7days",
+"1GB — ₦400 /3days",
+"2GB — ₦650 /4days",
+"4GB — ₦750 /5days",
+"5.3GB — ₦1,400 /6days",
 "6GB — ₦1,500 /8days",
 "8GB — ₦1,950 /10days",
 "10GB — ₦2,350 /18days",
@@ -532,12 +532,12 @@ DAILY: [
 ],
 
 WEEKLY: [
-"1.5GB — ₦600 /8days",
-"2GB — ₦700 /9days",
-"3GB — ₦650 /6days",
-"4GB — ₦750 /7days",
-"5GB — 950 /8days",
-"6GB — ₦1,100 /9days",
+"1.5GB — ₦690 /8days",
+"2GB — ₦850 /9days",
+"3GB — ₦650 /7days",
+"4GB — ₦750 /9days",
+"5GB — 950 /10days",
+"6GB — ₦1,100 /11days",
 "8GB — ₦1,200 /13days",
 "10GB — ₦1,750 /22days",
 "20GB — ₦3,350 /30days"
