@@ -1298,8 +1298,7 @@ font-weight:800;
 color:#f5b700;
 letter-spacing:.5px;
 ">
-
-7070653390
+8985368280
 
 </div>
 
@@ -1313,7 +1312,7 @@ font-size:13px;
 opacity:.7;
 ">
 
-On Opay
+On Palmpay
 
 </div>
 
