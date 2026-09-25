@@ -1390,7 +1390,7 @@ function copyVendorAccount(btn){
 navigator
 .clipboard
 .writeText(
-"7070653390"
+"8985368280"
 );
 
 btn.innerText =
