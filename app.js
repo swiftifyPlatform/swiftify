@@ -1143,7 +1143,7 @@ Bank
 
 <b>
 
-PalmPay / OPay
+PalmPay
 
 </b>
 
@@ -1349,7 +1349,7 @@ function copyAccount(){
 navigator
 .clipboard
 .writeText(
-"7070653390"
+"8985368280"
 );
 
 const btn =
