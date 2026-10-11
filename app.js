@@ -1116,7 +1116,7 @@ Account Number
 
 <b id="acct">
 
-8985368280
+2090891058
 
 </b>
 
@@ -1143,7 +1143,7 @@ Bank
 
 <b>
 
-On PalmPay
+On Kuda
 
 </b>
 
@@ -1298,7 +1298,7 @@ font-weight:800;
 color:#f5b700;
 letter-spacing:.5px;
 ">
-8985368280
+2090891058
 
 </div>
 
@@ -1312,7 +1312,7 @@ font-size:13px;
 opacity:.7;
 ">
 
-On Palmpay
+On Kuda
 
 </div>
 
@@ -1349,7 +1349,7 @@ function copyAccount(){
 navigator
 .clipboard
 .writeText(
-"8985368280"
+"2090891058"
 );
 
 const btn =
@@ -1390,7 +1390,7 @@ function copyVendorAccount(btn){
 navigator
 .clipboard
 .writeText(
-"8985368280"
+"2090891058"
 );
 
 btn.innerText =
