@@ -1143,7 +1143,7 @@ Bank
 
 <b>
 
-On Kuda
+On Smartcash
 
 </b>
 
@@ -1228,7 +1228,7 @@ font-weight:700;
 margin-bottom:8px;
 ">
 
-Account Pay To Vendor
+Account Pay To Vendor. Will be verified by smartcash once paid.
 
 </div>
 
@@ -1298,7 +1298,7 @@ font-weight:800;
 color:#f5b700;
 letter-spacing:.5px;
 ">
-2090891058
+1277699232
 
 </div>
 
@@ -1312,7 +1312,7 @@ font-size:13px;
 opacity:.7;
 ">
 
-On Kuda
+On Smartcash
 
 </div>
 
@@ -1390,7 +1390,7 @@ function copyVendorAccount(btn){
 navigator
 .clipboard
 .writeText(
-"2090891058"
+"1277699232"
 );
 
 btn.innerText =
