@@ -1143,7 +1143,7 @@ Bank
 
 <b>
 
-On Smartcash
+Smartcash
 
 </b>
 
@@ -1228,7 +1228,7 @@ font-weight:700;
 margin-bottom:8px;
 ">
 
-Account Pay To Vendor. Will be verified by smartcash once paid.
+Account Pay To Vendor. Your payment will be verified by smartcash once made.
 
 </div>
 
