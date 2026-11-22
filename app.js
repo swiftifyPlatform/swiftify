@@ -523,9 +523,9 @@ const dataPlans = {
 DAILY: [
 "1GB — ₦750 /6days",
 "2GB — ₦850 /6days",
-"4GB — ₦1,100 /6days, extra night",
+"4GB — ₦1,100 /6days, extra night.",
 "5.3GB — ₦1,400 /8days",
-"6GB — ₦1,500 /10days, YouTub,Tiktok, Extra Bonus.",
+"6GB — ₦1,500 /10days, YouTube,Tiktok, Extra Bonus.",
 "8GB — ₦1,950 /12days",
 "10GB — ₦2,350 /17days",
 "12GB — ₦2,500 /25days"
