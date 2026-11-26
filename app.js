@@ -521,8 +521,8 @@ const airtimePlans = [
 const dataPlans = {
 
 DAILY: [
-"1GB — ₦750 /6days",
-"2GB — ₦850 /6days",
+"1GB — ₦750 /3days",
+"2GB — ₦850 /5days",
 "4GB — ₦1,100 /6days, extra night.",
 "5.3GB — ₦1,400 /8days",
 "6GB — ₦1,500 /10days, YouTube,Tiktok, Extra Bonus.",
